@@ -1,5 +1,5 @@
 # Ex.05 Design a Website for Server Side Processing
-## Date:
+## Date:26/11/2024
 
 ## AIM:
  To design a website to calculate the power of a lamp filament in an incandescent bulb in the server side. 
@@ -32,12 +32,87 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 ## PROGRAM :
+```
 
+math1.html
+
+<html>
+    <head>
+        <title>mathapp</title>
+        <style>
+            body{
+                background-color: pink;
+            }
+            h1{
+                background-color: yellow
+            }
+            form{
+                background-color: violet
+            }
+        </style>
+    </head>
+    <body>
+        <h1 align="center">THE LAMP'S POWER</h1>
+        <form align="center"method="post">
+            {% csrf_token %}
+            Intensity <input name="I" value="{{i}}">
+            <br>
+            <br>
+            Resistance<input name="R" value="{{r}}">
+            <br>
+            <br>
+            <input type="submit" value="calculate">
+            <br>
+            <br>
+            Power<input name="power"value={{power}}>
+        </form>
+    </body>
+</html>
+
+views.py
+
+from django.shortcuts import render 
+def lampspower(request): 
+    context={} 
+    context['power'] = "0" 
+    context['i'] = "0" 
+    context['r'] = "0" 
+    if request.method == 'POST': 
+        print("POST method is used")
+        i = request.POST.get('I','0')
+        r = request.POST.get('R','0')
+        print('request=',request) 
+        print('Intensity=',i) 
+        print('Resistance=',r) 
+        power = (int(i)*int(i))* int(r) 
+        context['power'] = power 
+        context['i'] = i
+        context['r'] = r 
+        print('Power=',power) 
+    return render(request,'mathapp/math1.html',context)
+
+
+    urls.py
+
+    from django.contrib import admin 
+from django.urls import path 
+from mathapp import views 
+urlpatterns = [ 
+    path('admin/', admin.site.urls), 
+    path('lampspower/',views.lampspower,name="lampspower"),
+    path('',views.lampspower,name="lampspower")
+]
+
+```
 
 ## SERVER SIDE PROCESSING:
 
+![alt text](<parveen shot.png>)
+
 
 ## HOMEPAGE:
+
+![alt text](<parveen output.png>)
 
 
 ## RESULT:
